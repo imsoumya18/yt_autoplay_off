@@ -121,18 +121,25 @@ No data leaves your machine. The background service worker ([`Extension/backgrou
 
 ```
 yt-autoplay-off/
-├── Extension/
-│   ├── manifest.json       # MV3 extension manifest
-│   ├── content.js          # core autoplay-disabling logic
-│   ├── background.js       # minimal MV3 service worker
-│   ├── popup.html          # toolbar popup UI
-│   └── icons/              # extension icons (16, 32, 48, 128 px)
+├── YT Autoplay Off.xcodeproj     # Xcode project (open this to build)
+├── YT Autoplay Off/              # native macOS container app (Swift)
+│   ├── AppDelegate.swift
+│   ├── ViewController.swift
+│   └── Assets.xcassets/
+├── YT Autoplay Off Extension/    # Safari web extension
+│   ├── SafariWebExtensionHandler.swift
+│   └── Resources/
+│       ├── manifest.json         # MV3 extension manifest
+│       ├── content.js            # core autoplay-disabling logic
+│       ├── background.js         # minimal background script
+│       ├── popup.html / .css     # toolbar popup UI
+│       └── images/               # extension icons (48–512 px)
 ├── scripts/
-│   └── generate_icons.py   # generates placeholder PNG icons
+│   └── generate_icons.py         # regenerates placeholder PNG icons
 ├── docs/
-│   └── xcode-setup.md      # guide: build the .app in Xcode
-├── install.sh              # convenience install script for users
-├── .gitignore
+│   └── xcode-setup.md            # guide: build & distribute the .app
+├── install.sh                    # convenience install script for users
+├── LICENSE
 └── README.md
 ```
 

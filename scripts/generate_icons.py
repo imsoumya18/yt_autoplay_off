@@ -8,10 +8,12 @@ Usage:
     python3 scripts/generate_icons.py
 
 Output:
-    Extension/icons/icon-16.png
-    Extension/icons/icon-32.png
-    Extension/icons/icon-48.png
-    Extension/icons/icon-128.png
+    YT Autoplay Off Extension/Resources/images/icon-48.png
+    YT Autoplay Off Extension/Resources/images/icon-64.png
+    YT Autoplay Off Extension/Resources/images/icon-96.png
+    YT Autoplay Off Extension/Resources/images/icon-128.png
+    YT Autoplay Off Extension/Resources/images/icon-256.png
+    YT Autoplay Off Extension/Resources/images/icon-512.png
 
 Replace these with properly designed assets before shipping.
 """
@@ -21,8 +23,8 @@ import os
 import struct
 import zlib
 
-SIZES = [16, 32, 48, 128]
-OUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'Extension', 'icons')
+SIZES = [48, 64, 96, 128, 256, 512]
+OUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'YT Autoplay Off Extension', 'Resources', 'images')
 
 # Palette
 RED   = (204,   0,   0, 255)

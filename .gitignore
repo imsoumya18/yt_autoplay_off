@@ -1,6 +1,7 @@
 # Xcode
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcuserdata/
+**/*.xcuserstate
 *.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 DerivedData/
 *.xcarchive
@@ -23,3 +24,6 @@ Icon
 .vscode/settings.json
 *.swp
 *.swo
+
+# Claude Code
+.claude/

@@ -1,6 +1,8 @@
 # Building YT Autoplay Off from Source
 
-This guide walks you through creating the distributable `YT Autoplay Off.app` in Xcode.
+This guide walks you through building and packaging the distributable `YT Autoplay Off.app`.
+
+The Xcode project is already included in this repo — no setup from scratch needed.
 
 ## Prerequisites
 
@@ -12,73 +14,48 @@ This guide walks you through creating the distributable `YT Autoplay Off.app` in
 
 ---
 
-## Step 1 — Create a new Safari Web Extension project
+## Step 1 — Open the project
 
-1. Open **Xcode**.
-2. Go to **File → New → Project…**
-3. Select the **macOS** tab, then choose **Safari Extension App**.
-4. Fill in the fields:
-   - **Product Name:** `YT Autoplay Off`
-   - **Bundle Identifier:** `com.yourname.yt-autoplay-off` _(replace `yourname`)_
-   - **Language:** Swift
-   - **Include Extension:** ✔ checked
-5. Click **Next**, choose a location, and click **Create**.
-
----
-
-## Step 2 — Replace the generated extension files
-
-Xcode creates placeholder web extension files inside the extension target folder (typically named `YT Autoplay Off Extension/`). Delete those files and replace them with the ones from this repo.
-
-Your Xcode project's extension folder should end up looking like this:
-
-```
-YT Autoplay Off Extension/
-├── manifest.json         ← Extension/manifest.json
-├── content.js            ← Extension/content.js
-├── background.js         ← Extension/background.js
-├── popup.html            ← Extension/popup.html
-└── icons/
-    ├── icon-16.png
-    ├── icon-32.png
-    ├── icon-48.png
-    └── icon-128.png
+```bash
+open "YT Autoplay Off.xcodeproj"
 ```
 
-In Xcode, make sure all new files are added to the **Extension target** (not the container app target). You can check by clicking each file in the Project Navigator and verifying the target membership in the **File Inspector** on the right.
+Or double-click `YT Autoplay Off.xcodeproj` in Finder.
+
+The extension source files (`manifest.json`, `content.js`, etc.) live in:
+
+```
+YT Autoplay Off Extension/Resources/
+```
 
 ---
 
-## Step 3 — Update the container app UI (optional)
+## Step 2 — Run locally for testing
 
-The native macOS container app exists only to register the extension with Safari. The Xcode template generates a `ContentView.swift` with a message like "Enable the extension in Safari…". You can leave it as-is or customise the copy to match the extension name.
-
----
-
-## Step 4 — Run locally for testing
-
-1. Select your **Mac** as the run destination in the toolbar.
+1. Select **My Mac** as the run destination in the Xcode toolbar.
 2. Press **Cmd + R**.
-3. The container app launches and the extension is registered with Safari.
-4. Open Safari → **Settings → Extensions**, find **YT Autoplay Off**, and enable it.
-5. Grant access to `youtube.com` when prompted.
-6. Open a YouTube playlist to verify autoplay is disabled.
+3. The container app launches and registers the extension with Safari.
+4. In Safari, go to **Settings → Extensions**, find **YT Autoplay Off**, and enable it.
+5. When prompted, choose **Always Allow on youtube.com**.
+6. Open any YouTube playlist — autoplay should be disabled automatically.
+
+> **First run only:** go to **Safari → Settings → Advanced**, enable **Show features for web developers**, then go to **Safari → Develop → Allow Unsigned Extensions**.
 
 ---
 
-## Step 5 — Package for distribution
+## Step 3 — Package for distribution
 
 ### Archive the build
 
-1. Make sure **My Mac** is the selected scheme destination.
+1. Make sure **My Mac** is selected as the scheme destination.
 2. Go to **Product → Archive**.
-3. Xcode will open the **Organizer** window when the archive is complete.
+3. Xcode opens the **Organizer** window when the archive finishes.
 
 ### Export the .app
 
 1. Select the archive and click **Distribute App**.
-2. Choose **Copy App** (no signing or notarisation required for local distribution).
-3. Click **Next** and choose an export destination.
+2. Choose **Copy App** (no signing or notarisation needed).
+3. Click **Next** and choose an export folder.
 4. You'll get a folder containing `YT Autoplay Off.app`.
 
 ### Compress and upload
@@ -88,16 +65,16 @@ cd /path/to/exported/folder
 zip -r "YT-Autoplay-Off.app.zip" "YT Autoplay Off.app"
 ```
 
-Upload the zip to your [GitHub Release](https://github.com/imsoumya18/yt-autoplay-off/releases/new).
+Upload the zip to a [new GitHub Release](https://github.com/imsoumya18/yt-autoplay-off/releases/new).
 
 ---
 
 ## Notes on signing
 
-Because the app is built without an Apple Developer certificate, macOS Gatekeeper will quarantine it when users download it. The `install.sh` script and the README both handle this by running:
+Because the app is unsigned, macOS Gatekeeper quarantines it when users download it. The `install.sh` script handles this automatically with:
 
 ```bash
 xattr -cr "YT Autoplay Off.app"
 ```
 
-If you want a smoother install experience you can sign the app with a **free** Apple Developer account (which provides a Development certificate). This won't allow Mac App Store distribution but removes the Gatekeeper warning.
+For a smoother install experience, you can sign the app with a free Apple Developer account (Development certificate). This doesn't allow App Store distribution but removes the Gatekeeper warning entirely.
